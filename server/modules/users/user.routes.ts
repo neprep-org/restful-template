@@ -8,22 +8,23 @@ import {
   deleteUser,
   getAllUsers,
   login,
-  logout,
 } from "./user.controller";
+import authMiddleware from "../../middlewares/auth.middleware";
 
 const router = Router();
 
-// auth routes
+// auth routes - unprotected
 router.post("/signup", signup);
 router.post("/login", login);
-router.post("/logout", logout);
 
+// Authenticator middleware
+router.use(authMiddleware);
+
+// other routes - protected
 router.get("/all", getAllUsers);
 router.get("/:userId", getUserById);
 router.get("/logged-in-user", getLoggedInUser);
-
 router.put("/:userId", updateUser);
-
 router.delete("/:userId", deleteUser);
 
 export default router;

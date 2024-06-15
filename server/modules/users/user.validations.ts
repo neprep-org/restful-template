@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const UserValidationSchema = Joi.object({
+export const CreateUserValidationSchema = Joi.object({
   email: Joi.string()
     .max(50)
     .email({ minDomainSegments: 2, tlds: { allow: false } })
@@ -9,4 +9,14 @@ const UserValidationSchema = Joi.object({
   password: Joi.string().min(6).required(),
 }).options({ abortEarly: false, allowUnknown: false });
 
-export default UserValidationSchema;
+export const UpdateUserValidationSchema = Joi.object({
+  email: Joi.string()
+    .max(50)
+    .email({ minDomainSegments: 2, tlds: { allow: false } })
+    .required(),
+}).options({ abortEarly: false, allowUnknown: false });
+
+export const GetAllUsersQueryValidationSchema = Joi.object({
+  page: Joi.number().min(1).required(),
+  limit: Joi.number().min(1).required(),
+}).options({ abortEarly: false, allowUnknown: false });
