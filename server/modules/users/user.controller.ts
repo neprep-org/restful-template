@@ -57,7 +57,6 @@ export const signup = async (
       201
     );
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };
@@ -81,7 +80,6 @@ export const getUserById = async (
 
     return ApiResponse.success(res, user, "User fetched successfully", 200);
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };
@@ -129,7 +127,6 @@ export const updateUser = async (
       200
     );
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };
@@ -156,7 +153,6 @@ export const deleteUser = async (
 
     return ApiResponse.success(res, null, "User deleted successfully", 200);
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };
@@ -198,7 +194,6 @@ export const getAllUsers = async (
       200
     );
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };
@@ -242,7 +237,6 @@ export const login = async (
       201
     );
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };
@@ -264,7 +258,6 @@ export const getLoggedInUser = async (
 
     return ApiResponse.success(res, user, "User fetched successfully", 200);
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };

@@ -8,6 +8,7 @@ import ApiResponse from "./common/api_response";
 import { corsOptions } from "./common/app_constants";
 
 import usersRoutes from "./modules/users/user.routes";
+import errorMiddleware from "./middlewares/error.middleware";
 
 dotenv.config();
 
@@ -32,5 +33,8 @@ app.get("/health", async (req: Request, res: Response) => {
   const uptime = process.uptime(); // How long node process have been learning
   return ApiResponse.success(res, { date, uptime }, "Server is up and running");
 });
+
+// Error Middleware
+app.use(errorMiddleware);
 
 export default app;
