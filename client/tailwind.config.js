@@ -5,9 +5,9 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          light: "#63b3ed", // Light variant of the primary color
-          DEFAULT: "#4299e1", // Default primary color
-          dark: "#3182ce", // Dark variant of the primary color
+          light: "#77DD77", // Light variant of the primary color
+          DEFAULT: "#5ACE5A", // Default primary color
+          dark: "#34B335", // Dark variant of the primary color
         },
       },
     },

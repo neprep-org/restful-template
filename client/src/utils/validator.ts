@@ -1,12 +1,23 @@
 import showToast from "./errorToasts";
 
-export const validateEmailAndPassword = async (
+type AuthEvent = "signup" | "login";
+
+type AuthEventType = (
   email: string,
-  password: string
+  password: string,
+  event: AuthEvent
+) => Promise<void>;
+
+export const validateEmailAndPassword: AuthEventType = async (
+  email: string,
+  password: string,
+  event = "signup"
 ) => {
   if (!email || !password) {
     showToast("Email and password are required", "error");
   }
+
+  if (event !== "signup") return;
 
   if (password.length < 6) {
     showToast("Password must be at least 6 characters long", "error");

@@ -18,12 +18,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/signin" />} />
         <Route index path="/signin" element={<SignIn />} />
-        <Route
-          path="/dashboard"
-          element={<ProtectedRoute component={<Dashboard />} />}
-        />
         <Route path="/signup" element={<SignUp />} />
         <Route path="*" element={<NotFound />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <ToastContainer
         position="top-center"

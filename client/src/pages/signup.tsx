@@ -1,5 +1,5 @@
 import React, { FormEvent, useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { validateEmailAndPassword } from "../utils/validator";
 
@@ -11,7 +11,7 @@ const SignUp = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    await validateEmailAndPassword(email, password);
+    await validateEmailAndPassword(email, password, "signup");
     await signup(email, password);
   };
 
@@ -50,15 +50,15 @@ const SignUp = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-primary text-white p-2 rounded"
+          className="w-full bg-primary text-white p-2 rounded hover:bg-primary-dark disabled:bg-primary-light disabled:cursor-not-allowed"
           disabled={!isAuthenticating}
         >
-          Sign Up
+          Sign up
         </button>
         <div className="mt-4 text-center">
           <p className="text-gray-600">
             Have an account?{" "}
-            <Link to="/signin" className="text-primary">
+            <Link to="/signin" className="text-primary hover:text-primary-dark">
               Sign In
             </Link>
           </p>

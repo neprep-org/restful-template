@@ -11,7 +11,7 @@ const SignIn = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    await validateEmailAndPassword(email, password);
+    await validateEmailAndPassword(email, password, "login");
     await login(email, password);
   };
 
@@ -50,15 +50,15 @@ const SignIn = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-primary text-white p-2 rounded hover:bg-primary"
+          className="w-full bg-primary text-white p-2 rounded hover:bg-primary-dark disabled:bg-primary-light disabled:cursor-not-allowed"
           disabled={!isAuthenticating}
         >
-          Sign In
+          Sign in
         </button>
         <div className="mt-4 text-center">
           <p className="text-gray-600">
             New here?{" "}
-            <Link to="/signup" className="text-primary">
+            <Link to="/signup" className="text-primary hover:text-primary-dark">
               Sign Up
             </Link>
           </p>

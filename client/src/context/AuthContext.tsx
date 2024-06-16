@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../utils/axios.util";
 import showToast from "../utils/errorToasts";
 
@@ -10,6 +10,7 @@ const AuthProvider = ({ children }: any) => {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const login = async (email: string, password: string) => {
     try {
@@ -26,7 +27,7 @@ const AuthProvider = ({ children }: any) => {
         };
 
         setUser(loggedInUser);
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("ne-user", JSON.stringify(user));
         showToast(response.message, "success");
         navigate("/dashboard");
       } else {
@@ -58,7 +59,7 @@ const AuthProvider = ({ children }: any) => {
         };
 
         setUser(signedUpUser);
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("ne-user", JSON.stringify(user));
         showToast(response.message, "success");
         navigate("/dashboard");
       } else {
@@ -77,16 +78,16 @@ const AuthProvider = ({ children }: any) => {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.removeItem("ne-user");
     navigate("/signin");
   };
 
   // Check if user is already logged in on initial render
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("ne-user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
-      navigate("/dashboard");
+      navigate(location.pathname);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
