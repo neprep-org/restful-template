@@ -1,17 +1,18 @@
 import React, { FormEvent, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { validateEmailAndPassword } from "../utils/validator";
+import logo from "../assets/logo.png";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signup, isAuthenticating } = useContext(AuthContext);
+  const { signup, isAuthenticating, user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  if (user) navigate("/dashboard");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    await validateEmailAndPassword(email, password, "signup");
     await signup(email, password);
   };
 
@@ -21,7 +22,16 @@ const SignUp = () => {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded shadow-md w-full max-w-md"
       >
-        <h2 className="text-2xl mb-6 text-center">Sign Up</h2>
+        <div className=" flex justify-center items-center">
+          <img
+            src={logo}
+            alt="Exam's logo"
+            height={150}
+            width={200}
+            className="ml-6"
+          />
+        </div>
+        <h2 className="text-2xl text-center mt-[-6px] mb-8">Sign Up</h2>
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-700">
             Email
@@ -55,7 +65,7 @@ const SignUp = () => {
         >
           Sign up
         </button>
-        <div className="mt-4 text-center">
+        <div className="mt-8 text-center">
           <p className="text-gray-600">
             Have an account?{" "}
             <Link to="/signin" className="text-primary hover:text-primary-dark">

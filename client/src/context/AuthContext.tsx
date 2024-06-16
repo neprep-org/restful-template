@@ -35,7 +35,7 @@ const AuthProvider = ({ children }: any) => {
         showToast(response.data.message, "error");
       }
     } catch (error: any) {
-      setIsAuthenticating(false);
+      setIsAuthenticating(true); // app is still required to authenticate
       if (error.response) {
         showToast(error.response.data.message, "error");
       } else {
@@ -67,7 +67,7 @@ const AuthProvider = ({ children }: any) => {
         showToast(response.data.message, "error");
       }
     } catch (error: any) {
-      setIsAuthenticating(false);
+      setIsAuthenticating(true); // app is still required to authenticate
       if (error.response) {
         showToast(error.response.data.message, "error");
       } else {
@@ -87,14 +87,37 @@ const AuthProvider = ({ children }: any) => {
     const storedUser = localStorage.getItem("ne-user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
-      navigate(location.pathname);
+      if (
+        location.pathname === "/signin" ||
+        location.pathname === "/signup" ||
+        location.pathname === "/"
+      ) {
+        navigate("/dashboard");
+      } else {
+        navigate(location.pathname);
+      }
+    } else {
+      setUser(null);
+      if (
+        location.pathname === "/dashboard" ||
+        location.pathname === "/dashboard/*"
+      ) {
+        navigate("/signin");
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, signup, isAuthenticating }}
+      value={{
+        user,
+        login,
+        logout,
+        signup,
+        isAuthenticating,
+        setIsAuthenticating,
+      }}
     >
       {children}
     </AuthContext.Provider>
