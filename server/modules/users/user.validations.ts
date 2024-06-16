@@ -6,7 +6,7 @@ export const CreateUserValidationSchema = Joi.object({
     .email({ minDomainSegments: 2, tlds: { allow: false } })
     .required(),
 
-  password: Joi.string().min(6).required(),
+  password: Joi.string().min(6).max(12).required(),
 }).options({ abortEarly: false, allowUnknown: false });
 
 export const UpdateUserValidationSchema = Joi.object({
