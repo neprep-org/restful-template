@@ -1,13 +1,13 @@
-import React, { FormEvent, useContext, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import Logo from "../components/logo";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isLoading, user } = useContext(AuthContext);
+  const { login, isLoading, user } = useAuth();
   const navigate = useNavigate();
   if (user) navigate("/dashboard");
 

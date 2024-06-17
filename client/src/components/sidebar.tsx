@@ -1,6 +1,6 @@
 import avatar from "../assets/avatar.png";
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { FaChartBar, FaSignOutAlt, FaStar, FaUser } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import TruncatedText from "./clippedText";
@@ -9,7 +9,7 @@ import { DashboardContext } from "../context/DashboardContext";
 import DashboardLogo from "./dashboardLogo";
 
 const SideBar = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useAuth();
   const { activeButton, setActiveButton } = useContext(DashboardContext);
 
   const handleButtonClick = (buttonName: string) => {
