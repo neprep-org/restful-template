@@ -1,23 +1,22 @@
 import avatar from "../assets/avatar.png";
-import { useContext } from "react";
 import { useAuth } from "../context/AuthContext";
 import { FaChartBar, FaSignOutAlt, FaStar, FaUser } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import TruncatedText from "./clippedText";
 import SideBarButton from "./sidebarButton";
-import { DashboardContext } from "../context/DashboardContext";
+import { useDashboard } from "../context/DashboardContext";
 import DashboardLogo from "./dashboardLogo";
 
 const SideBar = () => {
   const { user, logout } = useAuth();
-  const { activeButton, setActiveButton } = useContext(DashboardContext);
+  const { activeButton, setActiveButton } = useDashboard();
 
   const handleButtonClick = (buttonName: string) => {
     setActiveButton(buttonName);
   };
 
   return (
-    <div className="h-screen w-[15%] border-r border-primary flex flex-col justify-between p-4 bg-primary shadow-2xl shadow-primary-dark">
+    <div className="h-[100%] w-[15%] border-r border-primary flex flex-col justify-between p-4 bg-primary shadow-lg shadow-primary-dark sticky">
       <div>
         <div className="flex flex-col items-center mb-6 ">
           <DashboardLogo />

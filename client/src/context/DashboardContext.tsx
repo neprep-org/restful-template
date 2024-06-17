@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { ActiveButtonType } from "../types/types";
 
 const DashboardContext = createContext(null as any);
@@ -13,4 +13,6 @@ const DashboardProvider = ({ children }: any) => {
   );
 };
 
-export { DashboardContext, DashboardProvider };
+const useDashboard = () => useContext(DashboardContext);
+
+export { useDashboard, DashboardProvider };
