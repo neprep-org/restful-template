@@ -2,12 +2,12 @@ import React, { FormEvent, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context/AuthContext";
-import logo from "../assets/logo.png";
+import Logo from "../components/logo";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isAuthenticating, user } = useContext(AuthContext);
+  const { login, isLoading, user } = useContext(AuthContext);
   const navigate = useNavigate();
   if (user) navigate("/dashboard");
 
@@ -22,15 +22,7 @@ const SignIn = () => {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded shadow-md w-full max-w-md"
       >
-        <div className=" flex justify-center items-center">
-          <img
-            src={logo}
-            alt="Exam's logo"
-            height={150}
-            width={200}
-            className="ml-6"
-          />
-        </div>
+        <Logo />
         <h2 className="text-2xl text-center mt-[-6px] mb-8">Sign In</h2>
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-700">
@@ -60,8 +52,8 @@ const SignIn = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-primary text-white p-2 rounded hover:bg-primary-dark disabled:bg-primary-light disabled:cursor-not-allowed"
-          disabled={!isAuthenticating}
+          className="w-full bg-primary text-white p-2 rounded hover:bg-primary-dark disabled:bg-primary-light disabled:cursor-wait"
+          disabled={isLoading}
         >
           Sign in
         </button>

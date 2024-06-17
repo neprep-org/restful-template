@@ -2,22 +2,24 @@ import React, { createContext, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../utils/axios.util";
 import showToast from "../utils/errorToasts";
+import { CookiesProvider, useCookies } from "react-cookie";
 
 const AuthContext = createContext({} as any);
 
 const AuthProvider = ({ children }: any) => {
-  const [user, setUser] = useState({} as any);
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [user, setUser] = useState(null as any);
+  const [isLoading, setIsLoading] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const login = async (email: string, password: string) => {
     try {
+      setIsLoading(true);
       let response: any = await axios.post("users/login", { email, password });
 
       if (response.status === 201) {
-        setIsAuthenticating(false);
         response = response.data;
 
         const loggedInUser = {
@@ -26,30 +28,32 @@ const AuthProvider = ({ children }: any) => {
           token: response.data.token,
         };
 
+        const expires = new Date(Date.now() + 1000 * 60 * 60); // Set cookie to expire in 1 hour
+
+        setCookie("user", JSON.stringify(loggedInUser), { path: "/", expires });
         setUser(loggedInUser);
-        localStorage.setItem("ne-user", JSON.stringify(user));
         showToast(response.message, "success");
         navigate("/dashboard");
       } else {
-        setIsAuthenticating(false);
         showToast(response.data.message, "error");
       }
     } catch (error: any) {
-      setIsAuthenticating(true); // app is still required to authenticate
       if (error.response) {
         showToast(error.response.data.message, "error");
       } else {
         showToast(error.message, "error");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const signup = async (email: string, password: string) => {
     try {
+      setIsLoading(true);
       let response: any = await axios.post("users/signup", { email, password });
 
       if (response.status === 201) {
-        setIsAuthenticating(false);
         response = response.data;
 
         const signedUpUser = {
@@ -58,35 +62,40 @@ const AuthProvider = ({ children }: any) => {
           token: response.data.token,
         };
 
+        const expires = new Date(Date.now() + 1000 * 60 * 60); // Set cookie to expire in 1 hour
+
+        setCookie("user", JSON.stringify(signedUpUser), { path: "/", expires });
         setUser(signedUpUser);
-        localStorage.setItem("ne-user", JSON.stringify(user));
+
         showToast(response.message, "success");
         navigate("/dashboard");
       } else {
-        setIsAuthenticating(false);
         showToast(response.data.message, "error");
       }
     } catch (error: any) {
-      setIsAuthenticating(true); // app is still required to authenticate
       if (error.response) {
         showToast(error.response.data.message, "error");
       } else {
         showToast(error.message, "error");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("ne-user");
+    removeCookie("user", { path: "/" });
+    showToast("Logged out successfully", "success");
     navigate("/signin");
   };
 
   // Check if user is already logged in on initial render
   useEffect(() => {
-    const storedUser = localStorage.getItem("ne-user");
+    const storedUser = cookies.user ? cookies.user : null;
+
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setUser(storedUser);
       if (
         location.pathname === "/signin" ||
         location.pathname === "/signup" ||
@@ -109,18 +118,19 @@ const AuthProvider = ({ children }: any) => {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        login,
-        logout,
-        signup,
-        isAuthenticating,
-        setIsAuthenticating,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <CookiesProvider>
+      <AuthContext.Provider
+        value={{
+          user,
+          login,
+          logout,
+          signup,
+          isLoading,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    </CookiesProvider>
   );
 };
 

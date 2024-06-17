@@ -10,7 +10,7 @@ import NotFound from "./pages/not-found";
 import SignUp from "./pages/signup";
 
 // Routes
-import ProtectedRoute from "./routes/protectedRoute";
+import ProtectedRoute from "./components/protectedRoute";
 
 function App() {
   return (
