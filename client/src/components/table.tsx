@@ -17,7 +17,7 @@ type TableProps = {
 
 const Table: React.FC<TableProps> = ({ columns, data }) => {
   const [currentPage, setCurrentPage] = useState(1); // Default page
-  const [rowsPerPage] = useState(6); // Default number of rows per page
+  const [rowsPerPage] = useState(7); // Default number of rows per page
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableData, setTableData] = useState(data);

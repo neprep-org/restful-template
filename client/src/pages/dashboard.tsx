@@ -13,6 +13,7 @@ const Dashboard = () => {
     <DashboardProvider>
       <div className="h-screen w-full flex flex-row">
         <SideBar />
+        <div className="h-[100%] w-[15%]"></div>
         <div className="w-[85%] h-[100%] flex flex-col justify-center items-center">
           {/* Dashboard */}
           <div className="flex justify-around w-full mb-8">

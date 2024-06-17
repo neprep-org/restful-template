@@ -16,7 +16,7 @@ const SideBar = () => {
   };
 
   return (
-    <div className="h-[100%] w-[15%] border-r border-primary flex flex-col justify-between p-4 bg-primary shadow-lg shadow-primary-dark sticky">
+    <div className="h-[100%] w-[15%] border-r border-primary flex flex-col justify-between p-4 bg-primary shadow-lg shadow-primary-dark fixed">
       <div>
         <div className="flex flex-col items-center mb-6 ">
           <DashboardLogo />
